@@ -92,7 +92,7 @@ button{
 }
 .register p a{
     text-decoration: none;
-    color: white;
+    color: rgb(154, 176, 248);
     font-weight: 600;
 }
 .register p a:hover{

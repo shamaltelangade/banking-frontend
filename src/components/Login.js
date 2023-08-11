@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import axios from "axios";
-import './Login.css';
+import './login.css';
 
 const Login = () =>{
-    const baseURL = "https://localhost:8080/checkLogin";
+    const baseURL = "https://localhost:8080/login";
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
 
@@ -22,7 +22,7 @@ const Login = () =>{
             password: password
         })
         .then((response)=>{
-            alert(" login success !");
+            alert(" login success !", response.data);
         })
         .catch(error => {
             alert("error==="+error);
