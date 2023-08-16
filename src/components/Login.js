@@ -1,9 +1,13 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import './login.css';
+import {useNavigate} from "react-router-dom";
+//import sessionStorage from "sessionstorage";
 
 const Login = () =>{
+
     const baseURL = "https://localhost:8080/login";
+    const navigate = useNavigate();
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
 
@@ -12,6 +16,9 @@ const Login = () =>{
     }
     const passwordChangeHandler=(event)=>{
         setPassword(event.target.value) 
+    }
+    const saveData = (res) => {
+        sessionStorage.setItem("uname",res);
     }
 
     const submitActionHandler = (event)=>{
@@ -22,7 +29,16 @@ const Login = () =>{
             password: password
         })
         .then((response)=>{
-            alert(" login success !", response.data);
+            console.log(response.data)
+            if(response.data === 'login Success !')
+            {
+                saveData(username);
+                navigate('/dashboard');
+            }
+            else{
+                alert("Invalid credentials !")
+            }
+            
         })
         .catch(error => {
             alert("error==="+error);
