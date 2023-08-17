@@ -8,18 +8,19 @@ import App from './landingpage';
 import Register from './components/register';
 import Login from './components/login';
 import Dashboard from './components/dashboard'
-
+import Account from './components/Account';
+import Transaction from './components/transaction';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-  <React.StrictMode>
     <Routes>
       <Route exact path="/" element={<App/>} ></Route>
       <Route path ="/dashboard" element={<Dashboard/>}/>
       <Route path="/register" element={<Register/>}/>
       <Route path="/login" element={<Login/>}/>
+      <Route path="/account" element={<Account/>} />
+      <Route path ="/Transaction" element={<Transaction/>}/>
     </Routes>
-  </React.StrictMode>
   </BrowserRouter>
 );
 
