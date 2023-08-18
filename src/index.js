@@ -10,6 +10,7 @@ import Login from './components/login';
 import Dashboard from './components/dashboard'
 import Account from './components/Account';
 import Transaction from './components/transaction';
+import accSummary from './components/accSummary';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
@@ -20,6 +21,7 @@ root.render(
       <Route path="/login" element={<Login/>}/>
       <Route path="/account" element={<Account/>} />
       <Route path ="/Transaction" element={<Transaction/>}/>
+      <Route path ="/accSummary" element={<accSummary/>}/>
     </Routes>
   </BrowserRouter>
 );

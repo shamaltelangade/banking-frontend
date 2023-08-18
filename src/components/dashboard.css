@@ -1,0 +1,28 @@
+*{
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+.main-page-header{
+    padding: 10px 0px;
+}
+.main-page-header .company-name{
+    font-weight: 600;
+    color: white;
+    margin-top: 10px;
+}
+.navigation{
+    margin-left: 20px;
+}
+.navigation li{
+    display: inline-block;
+    list-style-type: none;
+    margin: 10px 15px;
+}
+.navigation li a{
+    color: white;
+    text-decoration: none;
+}
+.display-name {
+    margin-top: 8px;
+    font-weight: 600;
+}

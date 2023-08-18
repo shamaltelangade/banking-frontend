@@ -3,7 +3,7 @@ import React from "react";
 function createAccount(){
     return(
         <div>
-            <h3>Create New Account</h3>
+            <h3>Create New Account</h3><br/>
             <label for="type">Select Account Type </label>
             <select name="type" id="type">
                 <option value="Saving">Saving</option>
@@ -19,7 +19,7 @@ function createAccount(){
                 <option value="003">003</option>
                 <option value="004">004</option>
             </select>
-            <input type="number" placeholde=" Enter Balance"> </input><br></br>
+            <input type="number" placeholder=" Enter Balance"> </input><br></br>
             <button >Create Account</button> 
         </div>
     );

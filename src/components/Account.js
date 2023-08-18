@@ -7,7 +7,9 @@ import {
 function Account(){
     //const navigate = useNavigate();
     const baseURL="https://localhost:8080/fetchAccounts/"+sessionStorage.getItem("uname");
+    const detailURL="https://localhost:8080/" ;
     const [accounts,setAccount] = useState([]);
+    const [details,setDetails] = useState([]);
     
     const fetchAccounts = () =>{
         axios.get(baseURL).then((response)=>{
@@ -17,10 +19,21 @@ function Account(){
         });
     }
     useEffect(()=>{
-        fetchAccounts();
+        fetchAccounts().then((res) => {
+            accounts.forEach((a) =>{
+                fetchAccountDetails(a);
+            });
+        });
+
     },[]);
 
-    
+    const fetchAccountDetails = (account) =>{
+        axios.get(baseURL+account).then((response)=>{
+            setDetails(response.data);
+        }).catch(error=>{
+            alert("error :"+error);
+        });
+    }
     return (
         <div>
             <Table striped>
@@ -33,11 +46,12 @@ function Account(){
                 </thead>
                 <tbody>
                     {
-                    accounts.map(account=>
+                    accounts.map((account) =>
+                        
                         <tr >
-                        <td>account.accNum</td>
-                        <td>account.ifsc</td>
-                        <td>account.balance</td>
+                        <td>details.accNum</td>
+                        <td>details.ifsc</td>
+                        <td>details.balance</td>
                     </tr>
                     )}
                     
