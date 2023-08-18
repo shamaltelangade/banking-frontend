@@ -1,6 +1,10 @@
-import React from "react";
-function accSummary(){
-    const summaryURL ="https://"
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Table } from "reactstrap";
+
+
+function AccSummary() {
+    const summaryURL ="http://"
     const [transactions,setTransaction] = useState([]);
     const [acc,setAcc] = useState();
     
@@ -50,4 +54,4 @@ function accSummary(){
     </div>
     );
 }
-export default accSummary;
+export default AccSummary;

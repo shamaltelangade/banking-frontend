@@ -5,8 +5,8 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './landingpage';
-import Register from './components/register';
-import Login from './components/login';
+import Register from './components/Register';
+import Login from './components/Login';
 import Dashboard from './components/dashboard'
 import Account from './components/Account';
 import Transaction from './components/transaction';

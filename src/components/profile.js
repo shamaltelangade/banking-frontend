@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 function Profile(){
-const userURL ="https://localhost:8088/user"
+const userURL ="http://localhost:8088/user";
 let user= sessionStorage.getItem("uname");
 const [details,setDetails] = useState([]);
 const fetchUserDetails = () =>{

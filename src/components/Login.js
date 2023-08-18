@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 
 const Login = () =>{
 
-    const baseURL = "https://localhost:8080/login";
+    const baseURL = "http://localhost:8080/login";
     const navigate = useNavigate();
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
@@ -30,7 +30,7 @@ const Login = () =>{
         })
         .then((response)=>{
             console.log(response.data)
-            if(response.data === 'login Success !')
+            if(response.data === 'Login Successful')
             {
                 saveData(username);
                 navigate('/dashboard');

@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 import {
     Table
   } from 'reactstrap';
-//import { useNavigate } from "react-router-dom";
-function Account(){
-    //const navigate = useNavigate();
-    const baseURL="https://localhost:8080/fetchAccounts/"+sessionStorage.getItem("uname");
-    const detailURL="https://localhost:8080/" ;
+
+  function Account(){
+    const baseURL="http://localhost:8080/fetchAccounts/"+sessionStorage.getItem("uname");
+    const detailURL="http://localhost:8080/" ;
     const [accounts,setAccount] = useState([]);
     const [details,setDetails] = useState([]);
     
