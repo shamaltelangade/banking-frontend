@@ -2,14 +2,18 @@ import React, {useState} from 'react';
 import axios from "axios";
 import './login.css';
 import {useNavigate} from "react-router-dom";
-//import sessionStorage from "sessionstorage";
+
 
 const Login = () =>{
 
     const baseURL = "http://localhost:8080/login";
+
     const navigate = useNavigate();
+
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
+
+    const [error, setError] = useState('');
 
     const usernameChangeHandler=(event)=>{
         setUsername(event.target.value) 
@@ -17,33 +21,40 @@ const Login = () =>{
     const passwordChangeHandler=(event)=>{
         setPassword(event.target.value) 
     }
+
     const saveData = (res) => {
         sessionStorage.setItem("uname",res);
     }
 
     const submitActionHandler = (event)=>{
         event.preventDefault();
-        axios
-        .post(baseURL,{
+        axios.post(baseURL, {
             username: username,
             password: password
         })
         .then((response)=>{
-            console.log(response.data)
-            if(response.data === 'Login Successful')
+            console.log(response.data, response.status);
+            if(response.status === 200)
             {
                 saveData(username);
                 navigate('/dashboard');
             }
-            else{
-                alert("Invalid credentials !")
+            else {
+                setError('Unknown error occurred, please try again!');
             }
-            
         })
-        .catch(error => {
-            alert("error==="+error);
+        .catch((err) => {
+            console.log(err.response.data);
+            if(err.response != null) {
+                setError('Error: ' + err.response.data);
+            }
+            else {
+                setError('Unknown error occurred, please try again!');
+            }
         });
     };
+
+
     return(
     <div className="sec">
         <div className="fbox">
@@ -58,12 +69,15 @@ const Login = () =>{
                         <input type="password" value={password} onChange={passwordChangeHandler} required ></input>
                         <label>Password</label>
                     </div>
+                    <p className='error-text'>
+                        {error}
+                    </p>
                     <div className='forget'>
                         <a href='#'>Forget Password</a>
                     </div>
                     <button type='submit'>Log In</button>
                     <div className='register'>
-                        <p>Don't have a account ? <a href='#'>Register</a></p>
+                        <p>Don't have a account ? <a href='/register'>Register</a></p>
                     </div>
                 </form>
             </div>
@@ -71,4 +85,6 @@ const Login = () =>{
     </div>
     );
 }
-export default Login
+
+
+export default Login;
