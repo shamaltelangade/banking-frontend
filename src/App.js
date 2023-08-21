@@ -5,7 +5,6 @@ import Register from './components/landing/Register';
 import Dashboard from './components/dashboard/Dashboard';
 import AccSummary from './components/dashboard/AccSummary';
 
-import ForgotPasswordPage from './components/ResetPassword';
 function App() {
   return (
     <BrowserRouter>
