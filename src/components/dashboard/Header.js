@@ -1,6 +1,7 @@
 import React from "react";
 
 function Header(){
+    
     let user= sessionStorage.getItem("uname");
 
     return  (
@@ -10,7 +11,7 @@ function Header(){
             <nav className="navigation">
                 <li><a href="/bankStatement">Bank Statement </a></li>
                 <li><a href="/transaction">Transaction</a></li>
-                <li><a href="/accSummaruy">Account Summary</a></li>
+                <li><a href="/accSummary">Account Summary</a></li>
             </nav>
             <div className="display-name ms-auto text-white ">
                 <i className="fa fa-circle text-success me-2"></i>Welcome : <span>USER</span>

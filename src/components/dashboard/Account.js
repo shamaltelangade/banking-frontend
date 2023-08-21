@@ -1,32 +1,15 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
     Table
 } from 'reactstrap';
 
-function Account() {
-
-    const baseURL = "http://localhost:8080/fetchAccounts/" + sessionStorage.getItem("uname");
-
-    const [accountDetails, setAccountDetails] = useState([]);
+function Account({accountDetails}) {
 
     const accountTypes = {
         "0": "Savings",
         "1": "Current",
         "2": "Salary"
     };
-
-    useEffect(() => {
-        const fetchAccounts = () => {
-            axios.get(baseURL).then((response) => {
-                setAccountDetails(response.data);
-            }).catch(error => {
-                alert("Error occurred while loading data:" + error);
-            });
-        }
-        fetchAccounts();
-    }, []);
-
 
     return (
         <div>

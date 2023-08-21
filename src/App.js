@@ -3,6 +3,7 @@ import LandingPage from './components/landing/LandingPage';
 import Login from './components/landing/Login';
 import Register from './components/landing/Register';
 import Dashboard from './components/dashboard/Dashboard';
+import AccSummary from './components/dashboard/AccSummary';
 
 function App() {
   return (
@@ -14,12 +15,12 @@ function App() {
       <Route path="/register" element={<Register />}/>
 
       <Route path ="/dashboard" element={<Dashboard />}/>
-
+      <Route path ="/accSummary" element={<AccSummary/>}/>
       
       
       {/* <Route path="/account" element={<Account/>} />
-      <Route path ="/Transaction" element={<Transaction/>}/>
-      <Route path ="/accSummary" element={<accSummary/>}/> */}
+      <Route path ="/Transaction" element={<Transaction/>}/> */}
+      
     </Routes>
   </BrowserRouter>
   );

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 import "./dashboard.css";
 import Header from "./Header"
 import { Container, Row, Col, Button } from "reactstrap";
@@ -10,9 +12,25 @@ const createNewAccountHandler = (event) => {
 
 function Dashboard(){
 
+    const baseURL = "http://localhost:8080/fetchAccounts/" + sessionStorage.getItem("uname");
+
+    const [accountDetails, setAccountDetails] = useState([]);
+
+    
+    useEffect(() => {
+        const fetchAccounts = () => {
+            axios.get(baseURL).then((response) => {
+                setAccountDetails(response.data);
+            }).catch(error => {
+                alert("Error occurred while loading data:" + error);
+            });
+        }
+        fetchAccounts();
+    }, []);
+
     return (
        <>
-        <Header/>
+        <Header accountDetails={accountDetails}/>
         <Container>
             <Row>
                 <Col className="col-6 justify-content-start mb-4">
@@ -22,7 +40,7 @@ function Dashboard(){
                     <Button onSubmit={createNewAccountHandler}>Create New Account</Button>
                 </Col>
                 <Col  className="col-12">
-                    <Account />
+                    <Account accountDetails={accountDetails}/>
                 </Col>
             </Row>
         </Container>
