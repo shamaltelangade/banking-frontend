@@ -5,12 +5,16 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from './dashboard/Header';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { useNavigate } from 'react-router';
 
 
 function TransactionForm({ sender }) {
 
     const [modal, setModal] = useState(false);
+    const [transactionId, setTransactionId] = useState("");
     const toggle = () => setModal(!modal);
+
+    const navigate = useNavigate();
 
     const baseURL = "http://localhost:8080/fetchAccounts/" + sessionStorage.getItem("uname");
     const [accountDetails, setAccountDetails] = useState([]);
@@ -45,9 +49,10 @@ function TransactionForm({ sender }) {
             })
             .then((response) => {
                 // alert(response.data);
+                setTransactionId(response.data);
                 toggle();
             })
-            .catch(error => {
+            .catch((error) => {
                 alert("error===" + error);
             });
     };
@@ -76,25 +81,25 @@ function TransactionForm({ sender }) {
                                     <tbody>
                                         <tr>
                                             <td>Reference ID</td>
-                                            <td></td>
+                                            <td>{transactionId}</td>
                                         </tr>
 
                                         <tr>
                                             <td>Transaction Mode</td>
-                                            <td>Dummy </td>
+                                            <td>{TransactionType} </td>
                                         </tr>
                                         <tr>
                                             <td>Paid to Account</td>
-                                            <td> </td>
+                                            <td>{BenificiaryAccountNum}</td>
                                         </tr>
 
                                         <tr>
                                             <td>Amount</td>
-                                            <td> </td>
+                                            <td>₹ {Amount} </td>
                                         </tr>
                                         <tr>
                                             <td>From Account</td>
-                                            <td> </td>
+                                            <td> {SenderAccount}</td>
                                         </tr>
                                         <tr>
                                             <td>Date</td>
@@ -110,7 +115,10 @@ function TransactionForm({ sender }) {
 
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="primary" onClick={toggle}>
+                                <Button color="primary" onClick={() => {
+                                    toggle();
+                                    navigate("/dashboard");
+                                }}>
                                     Ok
                                 </Button>{' '}
 

@@ -7,7 +7,7 @@ import AccSummary from './components/dashboard/AccSummary';
 import TransactionForm from './components/TransactionForm';
 import Withdrawl from './components/Withdrawl';
 import SelfTransfer from './components/SelfTransfer';
-
+import AdminHome from './components/admin/AdminHome';
 
 function App() {
   return (
@@ -16,10 +16,14 @@ function App() {
       <Route exact path="/" element={<LandingPage />} ></Route>
 
       <Route path="/login" element={<Login />}/>
+      <Route path="/login" element={<Register />}/>
+
       <Route path="/register" element={<Register />}/>
 
       <Route path ="/dashboard" element={<Dashboard />}/>
       <Route path ="/accSummary" element={<AccSummary/>}/>
+
+      <Route path ="/admin" element={<AdminHome />}/>
       
       <Route path="/onlineTransfer" element={<TransactionForm/>}/>
       <Route path="/selfTransfer" element={<SelfTransfer/>}/>
