@@ -5,8 +5,6 @@ import { Container, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDrop
 
 function Header() {
 
-    let user = sessionStorage.getItem("uname");
-
     return (
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <Container>
@@ -50,29 +48,5 @@ function Header() {
             </Container>
         </nav>
     );
-
-
-    {/* return  (
-
-
-
-        <header className="main-page-header mb-3 bg-primary">
-        <div className="container d-flex align-item-centre">
-            
-            <nav className="navigation">
-                <li><a href="/dashboard">Wells Fargo </a></li>
-                <li><a href="/bankStatement">Bank Statement </a></li>
-                <li><a href="/transaction">Transaction</a></li>
-                <li><a href="/accSummary">Account Summary</a></li>
-            </nav>
-            <div className="display-name ms-auto text-white ">
-                <i className="fa fa-circle text-success me-2"></i>Welcome : <span>USER</span>
-                <a href="" className="btn btn-sm text-white">
-                <i className="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Sign Out</span>
-                </a>
-            </div>
-        </div>
-    </header>
-    ); */}
 }
 export default Header;

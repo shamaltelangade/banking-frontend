@@ -73,7 +73,7 @@ const Login = () =>{
                         {error}
                     </p>
                     <div className='forget'>
-                        <a href='#'>Forget Password</a>
+                        <a href='/'>Forget Password</a>
                     </div>
                     <button type='submit'>Log In</button>
                     <div className='register'>
