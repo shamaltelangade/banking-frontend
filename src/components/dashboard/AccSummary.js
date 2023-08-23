@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Table } from "reactstrap";
 import Header from "./Header";
+import './AccSummary.css'
 
 function AccSummary() {
 
