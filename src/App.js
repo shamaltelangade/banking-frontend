@@ -8,6 +8,9 @@ import TransactionForm from './components/TransactionForm';
 import Withdrawl from './components/Withdrawl';
 import SelfTransfer from './components/SelfTransfer';
 import AdminHome from './components/admin/AdminHome';
+import AdminLogin from './components/adminDashboard/AdminLogin';
+import AdminNavigate from './components/adminDashboard/AdminNavigate';
+
 
 function App() {
   return (
@@ -19,6 +22,8 @@ function App() {
       <Route path="/login" element={<Register />}/>
 
       <Route path="/register" element={<Register />}/>
+      <Route path="/adminlogin" element={<AdminLogin />}/>
+      <Route path="/adminNavigate" element={<AdminNavigate />}/>
 
       <Route path ="/dashboard" element={<Dashboard />}/>
       <Route path ="/accSummary" element={<AccSummary/>}/>
