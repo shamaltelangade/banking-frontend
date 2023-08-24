@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import axios from "axios";
 import './login.css';
 import {useNavigate} from "react-router-dom";
+import { useAuth } from '../../utils/UserContext';
 
 
 const Login = () =>{
@@ -9,6 +10,8 @@ const Login = () =>{
     const baseURL = "http://localhost:8080/login";
 
     const navigate = useNavigate();
+
+    const {login} = useAuth();
 
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
@@ -22,9 +25,9 @@ const Login = () =>{
         setPassword(event.target.value) 
     }
 
-    const saveData = (res) => {
-        sessionStorage.setItem("uname",res);
-    }
+    // const saveData = (res) => {
+    //     sessionStorage.setItem("uname",res);
+    // }
 
     const submitActionHandler = (event)=>{
         event.preventDefault();
@@ -36,7 +39,7 @@ const Login = () =>{
             console.log(response.data, response.status);
             if(response.status === 200)
             {
-                saveData(username);
+                login(username, false);
                 navigate('/dashboard');
             }
             else {

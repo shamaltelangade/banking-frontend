@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import './register.css';
 import axios from "axios";
 import { Col, Container, Row } from 'reactstrap';
-
+import {useNavigate} from "react-router-dom";
+import { useAuth } from '../../utils/UserContext';
 
 const Register = () => {
+
+    const navigate = useNavigate();
+
+    const {login} = useAuth();
+
     const baseURL = "http://localhost:8080/register";
     const [title, settitle] = useState('');
     const [firstName, setfirstName] = useState('');
@@ -140,8 +146,9 @@ const Register = () => {
                         password: password
                     })
                     .then((response) => {
-                        alert(response.data);
-                        // navigate("/dashboard");
+                        // alert(response.data);
+                        login(username, false);
+                        navigate("/dashboard");
                     })
                     .catch(error => {
                         alert("error===" + error);
@@ -256,11 +263,11 @@ const Register = () => {
                             <h3>Permanent Address</h3>
                             <div className="f">
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value={sameAsCurrent} onChange={() => {
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value={sameAsCurrent} onChange={() => {
                                         setSameAsCurrent(!sameAsCurrent);
                                     }} id="permanentAddress" />
-                                    <label class="form-check-label" for="permanentAddress">
+                                    <label className="form-check-label" for="permanentAddress">
                                         Same as current address
                                     </label>
                                 </div>
@@ -304,7 +311,7 @@ const Register = () => {
                             <h3>Occupation Detail</h3>
                             <div className='input4'>
                                 <label>Occupation Type*</label>
-                                <select required value={occupationType} class="form-select" aria-label="Occupation Type" onChange={(e) => {
+                                <select required value={occupationType} className="form-select" aria-label="Occupation Type" onChange={(e) => {
                                     setoccupationType(e.target.value);
                                 }}>
                                     <option value="sel1">Select Occupation Type</option>
@@ -318,7 +325,7 @@ const Register = () => {
                             <div className='input4'>
                                 <label>Source Of Income*</label>
 
-                                <select required value={sourceOfIncome} class="form-select" aria-label="Source of  Income" onChange={(e) => {
+                                <select required value={sourceOfIncome} className="form-select" aria-label="Source of  Income" onChange={(e) => {
                                     setsourceOfIncome(e.target.value);
                                 }}>
                                     <option value="sel2">Select Source of Income</option>
@@ -333,7 +340,7 @@ const Register = () => {
                             <div className='input4'>
                                 <label>Gross Annual Income*</label>
 
-                                <select required value={grossAnnualIncome} class="form-select" aria-label="Gross Annual Income" onChange={(e) => {
+                                <select required value={grossAnnualIncome} className="form-select" aria-label="Gross Annual Income" onChange={(e) => {
                                     setgrossAnnualIncome(e.target.value);
                                 }}>
                                     <option value="sel3">Select Gross Annual Income</option>
@@ -350,26 +357,26 @@ const Register = () => {
 
                             <div className='k'>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value={netBanking} onChange={() => {
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value={netBanking} onChange={() => {
                                         setNetBanking(!netBanking);
                                     }} id="netBanking" />
-                                    <label class="form-check-label" for="netBanking">
+                                    <label className="form-check-label" for="netBanking">
                                         Opt for Internet Banking?
                                     </label>
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value={debitCard} onChange={() => {
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value={debitCard} onChange={() => {
                                         setDebitCard(debitCard);
                                     }} id="debitCard" />
-                                    <label class="form-check-label" for="debitCard">
+                                    <label className="form-check-label" for="debitCard">
                                         Opt for Debit Card?
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="agree" checked />
-                                    <label class="form-check-label" for="agree">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="agree" checked />
+                                    <label className="form-check-label" for="agree">
                                         I agree to the terms & conditions
                                     </label>
                                 </div>
@@ -380,18 +387,18 @@ const Register = () => {
                             <Container style={{marginTop: "50px"}}>
                                 <Row>
                                     <Col className='col-md-6 col-12'>
-                                        <label htmlFor="username" class="form-label">Username</label>
-                                        <input required minLength="8" type="text" value={username} onChange={(e) => setUsername(e.target.value)} id="username" class="form-control" aria-describedby="usernameHelp" />
-                                        <div id="usernameHelp" class="form-text">
+                                        <label htmlFor="username" className="form-label">Username</label>
+                                        <input required minLength="8" type="text" value={username} onChange={(e) => setUsername(e.target.value)} id="username" className="form-control" aria-describedby="usernameHelp" />
+                                        <div id="usernameHelp" className="form-text">
                                             Your username must be between 8-20 characters                                        </div>
-                                        <label htmlFor="password" class="form-label">Password</label>
-                                        <input required minLength="8" type="text" value={password} onChange={(e) => setPassword(e.target.value)} id="password" class="form-control" aria-describedby="passwordHelp" />
-                                        <div id="passwordHelp" class="form-text">
+                                        <label htmlFor="password" className="form-label">Password</label>
+                                        <input required minLength="8" type="text" value={password} onChange={(e) => setPassword(e.target.value)} id="password" className="form-control" aria-describedby="passwordHelp" />
+                                        <div id="passwordHelp" className="form-text">
                                             Your password must be 8-30 characters long, contain letters, characters and numbers.
                                         </div>
-                                        <label htmlFor="confPassword" class="form-label">Confirm Password</label>
-                                        <input required minLength="8" type="text" value={confPassword} onChange={(e) => setConfPassword(e.target.value)} id="confPassword" class="form-control" aria-describedby="confPasswordHelp" />
-                                        <div id="confPasswordHelp" class="form-text">
+                                        <label htmlFor="confPassword" className="form-label">Confirm Password</label>
+                                        <input required minLength="8" type="text" value={confPassword} onChange={(e) => setConfPassword(e.target.value)} id="confPassword" className="form-control" aria-describedby="confPasswordHelp" />
+                                        <div id="confPasswordHelp" className="form-text">
                                             Password must match with confirm password                                        </div>
                                     </Col>
                                 </Row>

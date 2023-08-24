@@ -12,7 +12,7 @@ function Dashboard() {
 
     const navigate = useNavigate();
 
-    const baseURL = "http://localhost:8080/fetchAccounts/" + sessionStorage.getItem("uname");
+    
 
     const [accountDetails, setAccountDetails] = useState([]);
 
@@ -39,7 +39,9 @@ function Dashboard() {
 
     useEffect(() => {
         const fetchAccounts = () => {
+            const baseURL = "http://localhost:8080/fetchAccounts/" + sessionStorage.getItem("uname");
             axios.get(baseURL).then((response) => {
+                // console.log(response.data);
                 setAccountDetails(response.data);
             }).catch(error => {
                 alert("Error occurred while loading data:" + error);

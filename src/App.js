@@ -57,7 +57,7 @@ function App() {
 function PrivateRoute({ element }) {
   const { authenticated, admin } = useAuth();
 
-  return authenticated ? <Outlet /> : <Navigate to="/" />;
+  return authenticated ? admin ? <Navigate to="/admin" /> : <Outlet /> : <Navigate to="/" />;
 }
 
 function PublicRoute({ element }) {
@@ -68,5 +68,8 @@ function PublicRoute({ element }) {
 
 function AdminRoute({ element }) {
   const { authenticated, admin } = useAuth();
+  return authenticated && admin ? <Outlet /> : <Navigate to="/" />;
+
 }
+
 export default App;
