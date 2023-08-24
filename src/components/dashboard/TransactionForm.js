@@ -3,18 +3,26 @@ import Form from 'react-bootstrap/Form';
 import { Container, Row, Col, Table } from 'reactstrap';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Header from './dashboard/Header';
+import Header from './Header';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { useNavigate } from 'react-router';
 
 
-function TransactionForm({ sender }) {
-
-    const [modal, setModal] = useState(false);
-    const [transactionId, setTransactionId] = useState("");
-    const toggle = () => setModal(!modal);
+function TransactionForm() {
 
     const navigate = useNavigate();
+    const [modal, setModal] = useState(false);
+    const [transactionId, setTransactionId] = useState("");
+
+    const toggle = () => {
+        if (modal) {
+            setModal(!modal);
+            navigate("/dashboard");
+        }
+        else {
+            setModal(!modal);
+        }
+    }
 
     const baseURL = "http://localhost:8080/fetchAccounts/" + sessionStorage.getItem("uname");
     const [accountDetails, setAccountDetails] = useState([]);
@@ -31,17 +39,17 @@ function TransactionForm({ sender }) {
     }, []);
 
     const transactionURL = "http://localhost:8080/transaction"
-    const [BenificiaryAccountNum, setBenificiaryAccountNum] = useState();
-    const [SenderAccount, setSenderAccount] = useState();
-    const [BenificiaryName, setBenificiaryName] = useState([]);
-    const [Ifsc, setIfsc] = useState([]);
-    const [Amount, setAmount] = useState([]);
-    const [TransactionType, setTransactionType] = useState([]);
+    const [BenificiaryAccountNum, setBenificiaryAccountNum] = useState("");
+    const [SenderAccount, setSenderAccount] = useState("sel");
+    const [BenificiaryName, setBenificiaryName] = useState("");
+    const [Ifsc, setIfsc] = useState("");
+    const [Amount, setAmount] = useState("");
+    const [TransactionType, setTransactionType] = useState("sel");
 
     const submitHandler = (event) => {
         event.preventDefault();
-        // alert(BenificiaryName + "  " + BenificiaryAccountNum + "  " + Ifsc + "  " + Amount + "  " + TransactionType);
-        axios
+        if(TransactionType != "sel" && SenderAccount != "sel") {
+            axios
             .post(transactionURL + `?sender=` + SenderAccount + '&reciever=' + BenificiaryAccountNum, {
                 'tAmount': Amount,
                 'tMode': TransactionType,
@@ -53,37 +61,41 @@ function TransactionForm({ sender }) {
                 toggle();
             })
             .catch((error) => {
-                alert("error===" + error);
+                alert("error===" + error.response ?? error.response.data);
+                console.log(error.response);
             });
+        }
+        else {
+            alert("Transaction type and sender account are required fields");
+        }
     };
 
-
     return (
-        <><Header />
-            <Container className='mt-4'>
-                <div className='self'>
-                    <h1>ONLINE TRANSFER</h1>
-                </div>
+        <>
+            <Header />
+
+            <Container style={{ marginTop: "80px" }}>
                 <Row>
+                    <Col className='col-12'>
+                        <h3>ONLINE TRANSFER</h3>
+                    </Col>
+
                     <Col className='col-md-6 col-sm-12'>
+
                         <Modal
                             isOpen={modal}
                             modalTransition={{ timeout: 700 }}
                             backdropTransition={{ timeout: 1300 }}
                             toggle={toggle}
-                        // className={className}
                         >
                             <ModalHeader toggle={toggle}>Transfer Successful</ModalHeader>
                             <ModalBody>
                                 <Table striped bordered hover>
-
-
                                     <tbody>
                                         <tr>
                                             <td>Reference ID</td>
                                             <td>{transactionId}</td>
                                         </tr>
-
                                         <tr>
                                             <td>Transaction Mode</td>
                                             <td>{TransactionType} </td>
@@ -92,7 +104,6 @@ function TransactionForm({ sender }) {
                                             <td>Paid to Account</td>
                                             <td>{BenificiaryAccountNum}</td>
                                         </tr>
-
                                         <tr>
                                             <td>Amount</td>
                                             <td>₹ {Amount} </td>
@@ -102,38 +113,31 @@ function TransactionForm({ sender }) {
                                             <td> {SenderAccount}</td>
                                         </tr>
                                         <tr>
-                                            <td>Date</td>
-                                            <td> </td>
-                                        </tr>
-                                        <tr>
                                             <td>Remarks</td>
                                             <td> </td>
                                         </tr>
-
                                     </tbody>
                                 </Table>
-
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="primary" onClick={() => {
                                     toggle();
-                                    navigate("/dashboard");
                                 }}>
                                     Ok
-                                </Button>{' '}
-
+                                </Button>
                             </ModalFooter>
                         </Modal>
+
                         <Form onSubmit={submitHandler}>
 
-                            <Form.Select aria-label="type" onChange={(e) => setTransactionType(e.target.value)}>
-                                <option>Select Transaction Type</option>
+                            <Form.Select required className='mt-2' aria-label="type" onChange={(e) => setTransactionType(e.target.value)}>
+                                <option value="sel">Select Transaction Type</option>
                                 <option value="IMPS">IMPS</option>
                                 <option value="RTGS">RTGS</option>
                                 <option value="NEFT">NEFT</option>
                             </Form.Select>
 
-                            <select name="accNum" id="accNum" onChange={(event) => {
+                            <select required className='form-select mt-4' name="accNum" id="accNum" onChange={(event) => {
                                 let val = event.target.value;
                                 if (val != "sel") {
                                     setSenderAccount(val);
@@ -148,14 +152,14 @@ function TransactionForm({ sender }) {
                                 }
                             </select>
 
-                            <Form.Group className="mb-3 mt-4" controlId="formBasicEmail">
+                            <Form.Group className="mb-3 mt-3" controlId="formBasicEmail">
                                 <Form.Label> Beneficiary Name</Form.Label>
                                 <Form.Control type="text" onChange={(event) => setBenificiaryName(event.target.value)} />
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label> Beneficiary Account Number</Form.Label>
-                                <Form.Control type="text" onChange={(event) => setBenificiaryAccountNum(event.target.value)} />
+                                <Form.Control required type="text" onChange={(event) => setBenificiaryAccountNum(event.target.value)} />
                             </Form.Group>
 
 
@@ -166,10 +170,10 @@ function TransactionForm({ sender }) {
 
                             <Form.Group className="mb-3" controlId="amount">
                                 <Form.Label>Amount</Form.Label>
-                                <Form.Control type="text" onChange={(event) => setAmount(event.target.value)} />
+                                <Form.Control required type="text" onChange={(event) => setAmount(event.target.value)} />
                             </Form.Group>
 
-                            <Button variant="primary" type="submit" onSubmit={submitHandler}>
+                            <Button variant="primary" type="submit">
                                 Submit
                             </Button>
 

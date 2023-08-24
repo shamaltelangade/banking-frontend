@@ -1,51 +1,72 @@
-import {Routes,Route, BrowserRouter} from 'react-router-dom';
+import React from 'react';
+import { UserProvider, useAuth } from './utils/UserContext';
+import { BrowserRouter as Router, Route, Navigate, Routes, Outlet } from 'react-router-dom';
 import LandingPage from './components/landing/LandingPage';
 import Login from './components/landing/Login';
-import Register from './components/Register';
+import Register from './components/landing/Register';
 import Dashboard from './components/dashboard/Dashboard';
 import AccSummary from './components/dashboard/AccSummary';
-import TransactionForm from './components/TransactionForm';
-import Withdrawl from './components/Withdrawl';
-import SelfTransfer from './components/SelfTransfer';
+import TransactionForm from './components/dashboard/TransactionForm';
+import Withdrawl from './components/dashboard/Withdrawl';
+import SelfTransfer from './components/dashboard/SelfTransfer';
 import AdminHome from './components/admin/AdminHome';
-import AdminLogin from './components/adminDashboard/AdminLogin';
-import AdminNavigate from './components/adminDashboard/AdminNavigate';
-
-import AccountStatement from './components/AccountStatement';
-import OnlineBankingRegister from './components/OnlineBankingRegister'
-import Profile  from './components/dashboard/Profile';
-import AllUsers from './components/dashboard/AllUsers';
-import ViewProfile from './components/dashboard/ViewProfile';
+import AdminTransaction from './components/admin/AdminTransactions';
+import PageNotFound from './components/PageNotFound';
+import ProfilePage from './components/dashboard/Profile';
 
 function App() {
-  return ( 
-    <BrowserRouter>
-    <Routes>
-      <Route exact path="/" element={<LandingPage />} ></Route>
-    <Route path='/viewprofile' element={<ViewProfile/>}/>
-      <Route path="/login" element={<Login />}/>
-      <Route path="/login" element={<Register />}/>
+  return (
+    <UserProvider>
+      <Router>
+        <Routes>
 
-      <Route path="/Profile" element={<Profile />}/>
-      <Route path="/register" element={<Register />}/>
-      <Route path="/adminlogin" element={<AdminLogin />}/>
-      <Route path="/adminNavigate" element={<AdminNavigate />}/>
+        <Route path="/" exact element={<PublicRoute />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
 
-      <Route path ="/dashboard" element={<Dashboard />}/>
-      <Route path ="/accSummary" element={<AccSummary/>}/>
+          <Route path="/" exact element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminHome />} />
+            <Route path="/adminTransactions" element={<AdminTransaction />} />
+          </Route>
 
-      <Route path ="/admin" element={<AdminHome />}/>
-      <Route path ="/AccountStatement" element={<AccountStatement/>}/>
-      <Route path ="/Acc" element={<OnlineBankingRegister/>}/>
-      <Route path ="/AllUsers" element={<AllUsers/>}/>
-      
-      <Route path="/onlineTransfer" element={<TransactionForm/>}/>
-      <Route path="/selfTransfer" element={<SelfTransfer/>}/>
-      <Route path="/cashWithdrawl" element={<Withdrawl/>}/>
-      
-    </Routes>
-  </BrowserRouter>
+          <Route path="/" exact element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/accSummary" element={<AccSummary />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/onlineTransfer" element={<TransactionForm />} />
+            <Route path="/selfTransfer" element={<SelfTransfer />} />
+            <Route path="/cashWithdrawl" element={<Withdrawl />} />
+          </Route>
+
+          
+          
+
+
+          {/* Catch-all route for Not Found */}
+          <Route path="*" element={<PageNotFound />}/>
+
+    
+        </Routes>
+      </Router>
+    </UserProvider>
   );
 }
 
+function PrivateRoute({ element }) {
+  const { authenticated, admin } = useAuth();
+
+  return authenticated ? <Outlet /> : <Navigate to="/" />;
+}
+
+function PublicRoute({ element }) {
+  const { authenticated, admin } = useAuth();
+
+  return authenticated ? admin ? <Navigate to="/admin" /> : <Navigate to="/dashboard" /> : <Outlet />;
+}
+
+function AdminRoute({ element }) {
+  const { authenticated, admin } = useAuth();
+}
 export default App;

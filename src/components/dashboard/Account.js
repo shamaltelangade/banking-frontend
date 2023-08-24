@@ -25,7 +25,7 @@ function Account({accountDetails}) {
                 <tbody>
                     {
                         accountDetails.map((account) =>
-                            <tr >
+                            <tr key={account.accountNo}>
                                 <td>{account.accountNo}</td>
                                 <td>{account.ifsc}</td>
                                 <td>{accountTypes[account.accountType]}</td>

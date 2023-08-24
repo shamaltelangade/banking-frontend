@@ -1,25 +1,35 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Dropdown from 'react-bootstrap/Dropdown';
 import { Container, Row, Col, Table } from 'reactstrap';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import Header from './dashboard/Header';
+import Header from './Header';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-
+import { useNavigate } from 'react-router';
 
 function Withdrawl() {
-    const withdrawlURL = "http://localhost:8080/transaction"
-    const [FromAccountNum, setFromAccountNum] = useState([]);
-    const [Amount, setAmount] = useState([]);
-    const [Balance, setBalance] = useState([]);
 
+    const withdrawlURL = "http://localhost:8080/selfWithdrawl"
+    const [FromAccountNum, setFromAccountNum] = useState("sel");
+    const [Amount, setAmount] = useState("");
+    const [Balance, setBalance] = useState("");
+    const navigate = useNavigate();
 
     const baseURL = "http://localhost:8080/fetchAccounts/" + sessionStorage.getItem("uname");
     const [accountDetails, setAccountDetails] = useState([]);
 
+    const [transactionId, setTransactionId] = useState("");
+
     const [modal, setModal] = useState(false);
-    const toggle = () => setModal(!modal);
+    const toggle = () => {
+        if (modal) {
+            setModal(!modal);
+            navigate("/dashboard");
+        }
+        else {
+            setModal(!modal);
+        }
+    }
 
     useEffect(() => {
         const fetchAccounts = () => {
@@ -35,84 +45,66 @@ function Withdrawl() {
     const submitHandler = (event) => {
         event.preventDefault();
         // alert(FromAccountNum + " " + Amount + " " +Balance+ " "+ "  test");
-        axios
-            .post(withdrawlURL + `?sender=` + FromAccountNum, {
-                'tAmount': Amount,
-                'tMode': "Withdrawl",
-                'tType': "Debit"
-            })
-            .then((response) => {
-                // alert(response.data);
-                // if (response.data == "Withdrawl process successful") {
-                //     alert("Money Withdrawn Successfully");
-                // }
-                // else {
-                //     alert("Insufficient Balance");
-                // }
-                toggle();
-            })
-            .catch(error => {
-                alert("error===" + error);
-            });
+        if (FromAccountNum != "sel") {
+            axios
+                .post(withdrawlURL + `?sender=` + FromAccountNum, {
+                    'tAmount': Amount,
+                    'tMode': "Withdrawl",
+                    'tType': "Debit"
+                })
+                .then((response) => {
+                    setTransactionId(response.data);
+                    toggle();
+                })
+                .catch(error => {
+                    alert("error===" + error.response ?? error.response.data);
+                    console.log(error.response);
+                });
+        }
+        else {
+            alert("Transaction type and sender account are required fields");
+        }
+
     };
-
-
-
 
     return (
         <><Header />
-            <Container className='mt-4'>
-                <div className='self'>
-                    <h1> CASH WITHDRAWL</h1>
-                </div>
+            <Container style={{ marginTop: "80px" }}>
                 <Row>
+                    <Col className='col-12'>
+                        <h3>CASH WITHDRAWL</h3>
+                    </Col>
                     <Col className='col-md-6 col-sm-12'>
-
-
                         <Modal
                             isOpen={modal}
                             modalTransition={{ timeout: 700 }}
                             backdropTransition={{ timeout: 1300 }}
                             toggle={toggle}
-                        // className={className}
                         >
                             <ModalHeader toggle={toggle}>Transfer Successful</ModalHeader>
                             <ModalBody>
                                 <Table striped bordered hover>
-
-
                                     <tbody>
                                         <tr>
                                             <td>Reference ID</td>
-                                            <td></td>
+                                            <td>{transactionId}</td>
                                         </tr>
-
                                         <tr>
                                             <td>Transaction Mode</td>
-                                            <td>Dummy </td>
+                                            <td>Cash Withdrawl</td>
                                         </tr>
-                                        <tr>
-                                            <td>Paid to Account</td>
-                                            <td> </td>
-                                        </tr>
-
                                         <tr>
                                             <td>Amount</td>
-                                            <td> </td>
+                                            <td>₹ {Amount}</td>
                                         </tr>
                                         <tr>
                                             <td>From Account</td>
-                                            <td> </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Date</td>
-                                            <td> </td>
+                                            <td>{FromAccountNum}</td>
                                         </tr>
                                         <tr>
                                             <td>Remarks</td>
                                             <td> </td>
                                         </tr>
-
                                     </tbody>
                                 </Table>
 
@@ -120,13 +112,13 @@ function Withdrawl() {
                             <ModalFooter>
                                 <Button color="primary" onClick={toggle}>
                                     Ok
-                                </Button>{' '}
+                                </Button>
 
                             </ModalFooter>
                         </Modal>
 
                         <Form onSubmit={submitHandler}>
-                            <select name="accNum" id="accNum" onChange={(event) => {
+                            <select className='form-select mt-2 mb-3' name="accNum" id="accNum" onChange={(event) => {
                                 let val = event.target.value;
                                 if (val != "sel") {
                                     setFromAccountNum(val);
@@ -141,22 +133,10 @@ function Withdrawl() {
                                 }
                             </select>
 
-
-
-
-
-
-
-
-
-
-                            <div className="k">
-
-                                <Form.Group className="mb-3" controlId="formBasicPassword">
-                                    <Form.Label>Amount</Form.Label>
-                                    <Form.Control type="text" onChange={(e) => setAmount(e.target.value)}></Form.Control>
-                                </Form.Group>
-                            </div>
+                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                                <Form.Label>Amount</Form.Label>
+                                <Form.Control required type="text" onChange={(e) => setAmount(e.target.value)}></Form.Control>
+                            </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label>Balance</Form.Label>

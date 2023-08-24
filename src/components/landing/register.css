@@ -1,14 +1,25 @@
 .c{
-    padding:16px;
     align-items: center;
+    background-image: url(back.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    
 }
+
 .r{
     background-color: rgb(71, 168, 71);
     width:100%;
     color:#f1f1f1;
     font-size: 40px;
     padding:10px;
-    margin:10px;
+    text-align: center;
+    margin: 0;
+}
+.reg-form{
+    padding: 30px;
+    background : rgba(255,255 ,255, 0.6);
 }
 .input8
 {
@@ -21,7 +32,7 @@
     width:500px;
     margin:auto;
 }
-input[type=text]
+.v input[type=text]
 {
     width:100%;
     padding:15px;
@@ -48,16 +59,6 @@ input[type=text]
     margin: auto;
     align-items: center;
 }
-/* #b1
-{
-    width:25%;
-    background-color:rgb(63, 255, 63);
-    border-radius: 4px;
-    color:white;
-    padding:15px 32px;
-    font-size:16px;
-    border:none;
-} */
 #b1{
     background-color: green;
     color:#f1f1f1;

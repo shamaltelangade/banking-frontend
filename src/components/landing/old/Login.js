@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import axios from "axios";
 import './login.css';
 import {useNavigate} from "react-router-dom";
+import { useAuth } from '../../utils/UserContext';
 
 
 const Login = () =>{
@@ -9,6 +10,8 @@ const Login = () =>{
     const baseURL = "http://localhost:8080/login";
 
     const navigate = useNavigate();
+
+    const {login} = useAuth();
 
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
@@ -37,6 +40,9 @@ const Login = () =>{
             if(response.status === 200)
             {
                 saveData(username);
+               
+                login(username, false);
+                
                 navigate('/dashboard');
             }
             else {
@@ -61,11 +67,11 @@ const Login = () =>{
             <div className="f-value">
                 <form onSubmit={submitActionHandler}> 
                     <h2>Login</h2>
-                    <div className='login-input'>
+                    <div className='input'>
                         <input type="text" value={username}onChange={usernameChangeHandler} required></input>
                         <label>Username</label>
                     </div>
-                    <div className='login-input'>
+                    <div className='input'>
                         <input type="password" value={password} onChange={passwordChangeHandler} required ></input>
                         <label>Password</label>
                     </div>
@@ -73,10 +79,7 @@ const Login = () =>{
                         {error}
                     </p>
                     <div className='forget'>
-                        <a href='/ForgetPassword'>Forget Password ?</a>
-                    </div>
-                    <div className='forget'>
-                        <a href='/ForgetUserId'>Forget UserId ?</a>
+                        <a href='/'>Forget Password</a>
                     </div>
                     <button type='submit'>Log In</button>
                     <div className='register'>
