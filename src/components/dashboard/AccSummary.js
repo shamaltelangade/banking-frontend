@@ -64,41 +64,41 @@ function AccSummary() {
                             }
                         </select>
 
-                       
+
                     </Col>
                     <Col className="col-12">
-                    {acc != "sel" ? <Table className="mt-4" striped>
-                            <thead>
-                                <tr>
-                                    <th>Txn Date</th>
-                                    <th>Transaction Id</th>
-                                    <th>Description</th>
-                                    <th>Debit</th>
-                                    <th>Credit</th>
-                                    <th>Balance</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    transactions.map((transaction) =>
-                                        <tr key={transaction.transactionId}>
-                                            <td>{formatDate(transaction.date)}</td>
-                                            <td>{transaction.transactionId}</td>
-                                            <td>{transaction.senderAccountId == acc ? `${transaction.recieverAccountId != 0 ? 'TRANSFER TO ' + transaction.recieverAccountId : "SELF CASH WITHDRAWL"}` : `TRANSFER FROM ${transaction.senderAccountId}`}</td>
-                                            <td>{transaction.senderAccountId == acc ? transaction.tAmount : ""}</td>
-                                            <td>{transaction.senderAccountId == acc ? "" : transaction.tAmount}</td>
-                                            <td>₹ {transaction.instBalance}</td>
-                                        </tr>
-                                    )}
+                        {acc != "sel" ? transactions.length > 0 ? <>
+                            <div className="mt-4">Showing most recent {transactions.length} transaction(s)</div>
+                            <Table className="mt-4" striped>
+                                <thead>
+                                    <tr>
+                                        <th>Txn Date</th>
+                                        <th>Transaction Id</th>
+                                        <th>Description</th>
+                                        <th>Debit</th>
+                                        <th>Credit</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        transactions.map((transaction) =>
+                                            <tr key={transaction.transactionId}>
+                                                <td>{formatDate(transaction.date)}</td>
+                                                <td>{transaction.transactionId}</td>
+                                                <td>{transaction.senderAccountId == acc ? `${transaction.recieverAccountId != 0 ? 'TRANSFER TO ' + transaction.recieverAccountId : transaction.tMode == "Cash Deposit" ? "SELF CASH DEPOSIT" : "SELF CASH WITHDRAWL"}` : `TRANSFER FROM ${transaction.senderAccountId}`}</td>
+                                                <td>{transaction.senderAccountId == acc ? transaction.tMode == "Cash Deposit" ? "" : transaction.tAmount : ""}</td>
+                                                <td>{transaction.senderAccountId == acc ?  transaction.tMode == "Cash Deposit" ? transaction.tAmount : "" : transaction.tAmount}</td>
+                                                <td>₹ {transaction.senderAccountId == acc ? transaction.instBalance : transaction.instBalanceReciever}</td>
+                                            </tr>
+                                        )}
 
-                            </tbody>
-                        </Table> : <div className="mt-4"><p>Select an account for fetching summary</p></div>}
+                                </tbody>
+                            </Table></> : <div className="mt-4">There are no transactions associated with this account</div> : <div className="mt-4"><p>Select an account for fetching summary</p></div>}
                     </Col>
                 </Row>
             </Container>
-
         </>
-
     );
 }
 export default AccSummary;

@@ -1,53 +1,41 @@
-import React, {useState} from 'react'
-import './ForgetUserId.css'
-function ForgetUserId()
-{
-    const[AccountNumber,setAccountNumber]=useState('');
-    const[Otp,setOtp]=useState('');
-    const fixedValue='1234';
-    const[message,setMessage]=useState('');
-    const handleAccountNumber=(e)=>
-    {
-        setAccountNumber(e.target.value);
-    };
-    const handleOtp=(e)=> {
-        setOtp(e.target.value);
-    };
-    const handleSubmit=(e)=>
-    {
-        e.preventDefault();
-        if(Otp===fixedValue)
-        {
+import React, { useState } from 'react';
+import './ForgetUserId.css';
 
-            setMessage('Otp is verified!');
-        }
-        else{
-            setMessage('Otp is wrong!');
-        }
-    };
+
+const ForgetUserId = () =>{
+
+    let [error, setError] = useState('');
+
+    function submitActionHandler(event) {
+        event.preventDefault();
+        setError('User ID Reset request has been submitted')
+    }
+
     return(
-        <div className="p">
-            <h1>Forgot User Id</h1><br/>
-            <form onSubmit={handleSubmit}>
-                <div className='u'>
-        <label>
-            Account Number:
-        <input type="text" value={AccountNumber} onChange={handleAccountNumber}/>
-        </label>
-        </div>
-        <br/><br/>
-    <div classNme="y">          
-     <label>
-               Otp :
-                <input type="text" value={Otp} onChange={handleOtp}/>
-            </label>
+    <div className="sec">
+        <div className="fbox">
+            <div className="f-value">
+                <form onSubmit={submitActionHandler}> 
+                    <h2>Reset User ID</h2>
+                    <div className='login-input'>
+                        <input type='number' name='account' required minLength={10} maxLength={10}></input>
+                        <label>Account Number</label>
+                    </div>
+                    <div className='login-input'>
+                        <input type="password" name='otp' required minLength={6} maxLength={6}></input>
+                        <label>OTP</label>
+                    </div>
+                    <p className='error-text'>
+                        {error}
+                    </p>
+                   
+                    <button type='submit'>Submit</button>
+                </form>
             </div>
- 
-            <br/><br/>
-        <button id="b1" type="submit">Submit</button>
-        </form> 
-           
-          </div>
+        </div>
+    </div>
     );
 }
+
+
 export default ForgetUserId;

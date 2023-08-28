@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import './Register.css';
+import './AddNewUser.css';
 import axios from "axios";
 import { Col, Container, Row } from 'reactstrap';
 import {useNavigate} from "react-router-dom";
-import { useAuth } from '../../utils/UserContext';
 
-const Register = () => {
+const AddNewUser = () => {
 
     const navigate = useNavigate();
-
-    const {login} = useAuth();
 
     const baseURL = "http://localhost:8080/register";
     const [title, settitle] = useState('');
@@ -145,10 +142,9 @@ const Register = () => {
                         username: username,
                         password: password
                     })
-                    .then((response) => {
-                        // alert(response.data);
-                        login(username, false);
-                        navigate("/dashboard");
+                    .then((response) => {                        
+                        navigate("/admin");
+                        alert("New User created successfully");
                     })
                     .catch(error => {
                         alert("error===" + error);
@@ -168,7 +164,7 @@ const Register = () => {
             <div className="flex-box">
                 <div className="v">
                     <form onSubmit={submitActionHandler}>
-                        <h2 className='r'>Registeration Form</h2>
+                        <h2 className='r'>New User Registeration Form</h2>
                         <div className='reg-form'>
                             <h3>Personal Details</h3>
                             <p>Fields marked * are complusary</p>
@@ -415,4 +411,4 @@ const Register = () => {
         </div>
     );
 }
-export default Register;
+export default AddNewUser;

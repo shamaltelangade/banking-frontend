@@ -115,10 +115,6 @@ function SelfTransfer() {
                                             <td>From Account</td>
                                             <td>{FromAccountNum}</td>
                                         </tr>
-                                        <tr>
-                                            <td>Remarks</td>
-                                            <td> </td>
-                                        </tr>
                                     </tbody>
                                 </Table>
 

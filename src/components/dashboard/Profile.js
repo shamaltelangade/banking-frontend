@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Header from './Header';
+import { Col, Container, Row } from 'reactstrap';
+import { Card, CardBody, CardTitle, CardText } from 'reactstrap';
+import UserDetails from '../admin/UserDetails';
 
 const ProfilePage = () => {
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Replace 'API_URL' with the actual API endpoint
-    axios.get('API_URL')
+    let uname = sessionStorage.getItem("uname");
+    axios.get(`http://localhost:8080/customer/${uname}`)
       .then(response => {
         setUserData(response.data);
         setLoading(false);
@@ -16,22 +20,28 @@ const ProfilePage = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Your Bank Profile</h1>
+    <>
+      <Header />
+      <Container style={{marginTop: "80px"}}>
+        <Row>
+          <Col className='col-md-6 col-12'>
       {loading ? (
         <p>Loading user data...</p>
       ) : (
-        <div>
-          <p>Welcome, {userData.firstName} {userData.lastName}!</p>
-          <p>Account Number: {userData.accountNumber}</p>
-          <p>Balance: ₹{userData.balance}</p>
-          <p>Email: {userData.email}</p>
-          <p>Phone Number: {userData.phoneNumber}</p>
-          <p>Address: {userData.address}</p>
-          {/* Add more user information as needed */}
-        </div>
+        <div className=" justify-content-center" >
+        <Card>
+          <CardBody>
+            <CardTitle tag="h2">My Profile</CardTitle>
+            <UserDetails user={userData}/>
+          </CardBody>
+        </Card>
+      </div>
       )}
-    </div>
+          </Col>
+        </Row>
+      </Container>
+      
+    </>
   );
 };
 

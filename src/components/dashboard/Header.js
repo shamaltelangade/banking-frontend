@@ -29,7 +29,7 @@ function Header() {
             <Collapse isOpen={isOpen} navbar>
                 <Nav className="me-auto" navbar>
                     <NavItem>
-                        <NavLink href="//bankStatement">Bank Statement</NavLink>
+                        <NavLink href="/accountStatement">Account Statement</NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink href="/accSummary">Account Summary</NavLink>
@@ -39,6 +39,9 @@ function Header() {
                             Transaction
                         </DropdownToggle>
                         <DropdownMenu end>
+                            <DropdownItem>
+                                <a className="dropdown-item" href="/cashDeposit">Cash Deposit</a>
+                            </DropdownItem>
                             <DropdownItem>
                                 <a className="dropdown-item" href="/cashWithdrawl">Cash Withdrawl</a>
                             </DropdownItem>

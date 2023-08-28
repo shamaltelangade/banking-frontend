@@ -48,10 +48,10 @@ function UserDetails({ user }) {
         <strong>Total Gross Annual Income:</strong> {user.annualIncome}
       </div>
       <div>
-        <strong>Net Banking Opted:</strong> {user.netBankingOpted}
+        <strong>Net Banking Opted:</strong> {user.netBankingOpted ? "Yes" : "No"}
       </div>
       <div>
-        <strong>Debit Card Opted:</strong> {user.debitCardOpted}
+        <strong>Debit Card Opted:</strong> {user.debitCardOpted ? "Yes" : "No"}
       </div>
     </div>
   );

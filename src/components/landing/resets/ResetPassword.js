@@ -1,35 +1,42 @@
-import React,{useState} from 'react';
-import './Reset.css';
+import React, { useState } from 'react';
+import './ResetPassword.css';
 
-function ForgotPassword(){
-    const [email,setEmail]=useState('');
-    const[message,setMessage]=useState('');
-    const handleEmailChange=(event)=>{
-        setEmail(event.target.value);
-    };
-    const handleSubmit=(event)=>{
+
+const ResetPassword = () =>{
+
+    let [error, setError] = useState('');
+
+    function submitActionHandler(event) {
         event.preventDefault();
-        setMessage('Password reset link sent to ${email}');
-    };
+        setError('Password Reset request has been submitted')
+    }
+
     return(
-        <div>
-            <div className="fp">
-            <h1>Forgot Password</h1>
-            <br/>
-            
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Email:
-                    <input type="email" value={email} onChange={handleEmailChange}/>
-                </label>
-                <br/>
-                
-                <button id ="b1" type="submit">Reset Password</button>
-              
-            </form>
+    <div className="sec">
+        <div className="fbox">
+            <div className="f-value">
+                <form onSubmit={submitActionHandler}> 
+                    <h2>Reset Password</h2>
+                    <div className='login-input'>
+                        <input type="email" name='email'  required></input>
+                        <label>Email</label>
+                    </div>
+                    <div className='login-input'>
+                        <input type="password" name='otp' required minLength={6} maxLength={6}></input>
+                        <label>OTP</label>
+                    </div>
+                    <p className='error-text'>
+                        {error}
+                    </p>
+                   
+                    <button type='submit'>Submit</button>
+                   
+                </form>
             </div>
-            <p>{message}</p>
         </div>
+    </div>
     );
-};
-export default ForgotPassword;
+}
+
+
+export default ResetPassword;

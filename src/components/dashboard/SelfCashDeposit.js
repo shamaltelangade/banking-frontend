@@ -7,10 +7,10 @@ import Header from './Header';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { useNavigate } from 'react-router';
 
-function Withdrawl() {
+function SelfCashDeposit() {
 
-    const withdrawlURL = "http://localhost:8080/selfWithdrawl"
-    const [FromAccountNum, setFromAccountNum] = useState("sel");
+    const depositURL = "http://localhost:8080/selfDeposit";
+    const [ToAccountNum, setToAccountNum] = useState("sel");
     const [Amount, setAmount] = useState("");
     const [Balance, setBalance] = useState("");
     const navigate = useNavigate();
@@ -55,11 +55,11 @@ function Withdrawl() {
     const submitHandler = (event) => {
         event.preventDefault();
         // alert(FromAccountNum + " " + Amount + " " +Balance+ " "+ "  test");
-        if (FromAccountNum != "sel") {
+        if (ToAccountNum != "sel") {
             axios
-                .post(withdrawlURL + `?sender=` + FromAccountNum, {
+                .post(depositURL + `?sender=` + ToAccountNum, {
                     'tAmount': Amount,
-                    'tMode': "Withdrawl",
+                    'tMode': "Cash Deposit",
                     'tType': "Debit"
                 })
                 .then((response) => {
@@ -82,7 +82,7 @@ function Withdrawl() {
             <Container style={{ marginTop: "80px" }}>
                 <Row>
                     <Col className='col-12'>
-                        <h3>CASH WITHDRAWL</h3>
+                        <h3>CASH DEPOSIT</h3>
                     </Col>
                     <Col className='col-md-6 col-sm-12'>
                         <Modal
@@ -101,15 +101,15 @@ function Withdrawl() {
                                         </tr>
                                         <tr>
                                             <td>Transaction Mode</td>
-                                            <td>Cash Withdrawl</td>
+                                            <td>Cash Deposit</td>
                                         </tr>
                                         <tr>
                                             <td>Amount</td>
                                             <td>₹ {Amount}</td>
                                         </tr>
                                         <tr>
-                                            <td>From Account</td>
-                                            <td>{FromAccountNum}</td>
+                                            <td>To Account</td>
+                                            <td>{ToAccountNum}</td>
                                         </tr>
                                     </tbody>
                                 </Table>
@@ -127,11 +127,11 @@ function Withdrawl() {
                             <select className='form-select mt-2 mb-3' name="accNum" id="accNum" onChange={(event) => {
                                 let val = event.target.value;
                                 if (val != "sel") {
-                                    setFromAccountNum(val);
+                                    setToAccountNum(val);
                                     fetchBalance(val);
                                 }
                             }}>
-                                <option value="sel" key="sel">From Account</option>
+                                <option value="sel" key="sel">To Account</option>
                                 {accountDetails.map((ac) => {
                                     return (
                                         <option value={ac.accountNo} key={ac.accountNo}>{ac.accountNo}</option>
@@ -161,5 +161,5 @@ function Withdrawl() {
     );
 }
 
-export default Withdrawl;
+export default SelfCashDeposit;
 

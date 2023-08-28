@@ -1,6 +1,6 @@
 .c{
     align-items: center;
-    background-image: url(back.jpg);
+    background-image: url(../landing/back.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;

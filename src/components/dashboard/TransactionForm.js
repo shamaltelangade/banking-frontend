@@ -112,10 +112,6 @@ function TransactionForm() {
                                             <td>From Account</td>
                                             <td> {SenderAccount}</td>
                                         </tr>
-                                        <tr>
-                                            <td>Remarks</td>
-                                            <td> </td>
-                                        </tr>
                                     </tbody>
                                 </Table>
                             </ModalBody>

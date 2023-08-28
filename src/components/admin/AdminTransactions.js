@@ -12,13 +12,16 @@ function AdminTransaction() {
         return new Date(dateString).toLocaleDateString(undefined, options)
     }
 
-    const summaryURL = "http://localhost:8080/accountSummary?accountNo=";
+    const summaryURL = "http://localhost:8080/accountSummaryAll?accountNo=";
     const [transactions, setTransaction] = useState([]);
     const [acc, setAcc] = useState("");
+
+    const [currAcc, setCurrAcc] = useState('');
 
     const fetchTransaction = (val) => {
         axios.get(summaryURL + val).then((response) => {
             setTransaction(response.data);
+            setCurrAcc(val);
         }).catch(error => {
             setTransaction([]);
             alert("Error occurred while loading data:" + error);
@@ -39,7 +42,7 @@ function AdminTransaction() {
             <AdminHeader />
             <Container style={{ marginTop: "80px" }}>
                 <Row>
-                    <Col>
+                    <Col className="col-md-6 col-12">
                         <Form onSubmit={handleSubmit}>
                             <FormGroup>
                                 <Label for="account">Account No </Label>
@@ -54,7 +57,9 @@ function AdminTransaction() {
                             </FormGroup>
                             <Button color="primary">Get All Transactions</Button>
                         </Form>
-
+                        </Col>
+                        <Col className="col-12 mt-4">
+                            {transactions.length > 0 ? <div>Showing transactions for {currAcc}</div> : <></>}
                         {acc.trim().length > 9 ? transactions.length > 0 ? <Table className="mt-4" striped>
                             <thead>
                                 <tr>
@@ -72,9 +77,9 @@ function AdminTransaction() {
                                         <tr key={transaction.transactionId} >
                                             <td>{formatDate(transaction.date)}</td>
                                             <td>{transaction.transactionId}</td>
-                                            <td>{transaction.senderAccountId == acc ? `${transaction.recieverAccountId != 0 ? 'TRANSFER TO ' + transaction.recieverAccountId : "SELF CASH WITHDRAWL"}` : `TRANSFER FROM ${transaction.senderAccountId}`}</td>
-                                            <td>{transaction.senderAccountId == acc ? transaction.tAmount : ""}</td>
-                                            <td>{transaction.senderAccountId == acc ? "" : transaction.tAmount}</td>
+                                            <td>{transaction.senderAccountId == acc ? `${transaction.recieverAccountId != 0 ? 'TRANSFER TO ' + transaction.recieverAccountId : transaction.tMode == "Cash Deposit" ? "SELF CASH DEPOSIT" : "SELF CASH WITHDRAWL"}` : `TRANSFER FROM ${transaction.senderAccountId}`}</td>
+                                            <td>{transaction.senderAccountId == acc ? transaction.tMode == "Cash Deposit" ? "" : transaction.tAmount : ""}</td>
+                                            <td>{transaction.senderAccountId == acc ? transaction.tMode == "Cash Deposit" ? transaction.tAmount : "" : transaction.tAmount}</td>
                                             <td>₹ {transaction.instBalance}</td>
                                         </tr>
                                     )}

@@ -29,6 +29,9 @@ function AdminHeader () {
             <NavItem>
               <NavLink href="/adminTransactions">Transactions</NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink href="/admin/addUser">Add New User</NavLink>
+            </NavItem>
           </Nav>
           <NavbarText>Welcome ADMIN</NavbarText>
           <Nav className="ms-auto" navbar>
